@@ -5,6 +5,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import pl.sda.moneymanager.dto.GithubRepoDto;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @RestController
 @RequestMapping("/github-int")
@@ -17,9 +22,14 @@ public class GitHubIntegrationController {
     }
 
     @GetMapping("/my-repos")
-    public String myRepos () {
+    public List<GithubRepoDto> myRepos () {
 
-        return restTemplate.getForObject(myReposUrl, String.class);
+//        String[].class <-- tak sie  da
+//        List.class <-- tak sie nie da
+//        List<String>.class  <-- tak sie nie da
+//        List<GithubRepoDto>.class <-- tak sie nie da
+        var requestResult = restTemplate.getForObject(myReposUrl, GithubRepoDto[].class);
+        return Arrays.asList(requestResult);
     }
 
 
